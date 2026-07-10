@@ -186,6 +186,29 @@ function RingMenu_UpdateAllRings()
     RingMenu_UpdateRingCrossReferences()
 end
 
+function RingMenu_UpdateActionSlot(slot)
+    if InCombatLockdown and InCombatLockdown() then
+        return
+    end
+
+    for ringID = 1, RingMenu_globalConfig.numRings do
+        local config = RingMenu_ringConfig[ringID]
+        local rf = RingMenu.ringFrame and RingMenu.ringFrame[ringID]
+        if config and rf and rf.button then
+            local firstSlot = config.firstSlot or 1
+            local lastSlot = firstSlot + (config.numSlots or 1) - 1
+            if not slot or (slot >= firstSlot and slot <= lastSlot) then
+                for buttonID = 1, (config.numSlots or 1) do
+                    local buttonSlot = firstSlot + buttonID - 1
+                    if not slot or slot == buttonSlot then
+                        RingMenu.SetActionButtonSlot(rf.button[buttonID], buttonSlot)
+                    end
+                end
+            end
+        end
+    end
+end
+
 -- The main frame is used only to respond to global events
 RingMenu.mainFrame = CreateFrame("Frame")
 RingMenu.mainFrame.OnEvent = function(self, event, arg1)
@@ -208,9 +231,12 @@ RingMenu.mainFrame.OnEvent = function(self, event, arg1)
 
         -- Init options panel
         RingMenuOptions_SetupPanel()
+    elseif event == "ACTIONBAR_SLOT_CHANGED" then
+        RingMenu_UpdateActionSlot(arg1)
     end
 end
 RingMenu.mainFrame:RegisterEvent("ADDON_LOADED")
+RingMenu.mainFrame:RegisterEvent("ACTIONBAR_SLOT_CHANGED")
 RingMenu.mainFrame:SetScript("OnEvent", RingMenu.mainFrame.OnEvent)
 
 SLASH_RINGMENU1 = '/ringmenu'
