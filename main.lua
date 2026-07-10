@@ -137,6 +137,7 @@ function RingMenu_UpdateRing(ringID)
             local button = rf.button[buttonID]
             button.ringID = ringID
             button.buttonID = buttonID
+            button:RegisterForClicks("AnyUp")
 
             rf.toggleButton:WrapScript(button, "OnClick", "", [[ -- (self, button, down)
                 local closeOnClick = self:GetAttribute("closeOnClick")
