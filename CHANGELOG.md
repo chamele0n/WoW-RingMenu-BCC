@@ -4,14 +4,10 @@ All notable changes to RingMenu TBC Anniversary will be documented in this file.
 
 ## Unreleased
 
-### Added
-
-- Added `ACTIONBAR_SLOT_CHANGED` handling so ring buttons refresh their secure action attributes when the mapped Blizzard action bar slot changes out of combat.
-
 ### Fixed
 
-- Fixed macros placed on ring slots by assigning secure macro attributes when `GetActionInfo(slot)` reports a macro.
-- Preserved the standard action-slot path for Blizzard spells, items, abilities, and other non-macro actions.
+- Reverted macro-specific secure attributes so RingMenu remains a normal action-bar slot view for dragging, replacing, and removing actions.
+- Preserved `ACTIONBAR_SLOT_CHANGED` handling so ring buttons refresh when their mapped Blizzard action bar slots change out of combat.
 
 ## 2.5.4-Anniversary
 

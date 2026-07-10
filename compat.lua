@@ -95,18 +95,8 @@ function RingMenu.OpenColorPicker(color, onChanged)
 end
 
 function RingMenu.SetActionButtonSlot(button, slot)
-    local actionType, id = GetActionInfo(slot)
-
-    if actionType == "macro" and id then
-        button:SetAttribute("type", "macro")
-        button:SetAttribute("macro", id)
-        button:SetAttribute("action", nil)
-    else
-        button:SetAttribute("type", "action")
-        button:SetAttribute("action", slot)
-        button:SetAttribute("macro", nil)
-    end
-
+    button:SetAttribute("type", "action")
+    button:SetAttribute("action", slot)
     button.action = slot
 
     if ActionButton_UpdateAction then
