@@ -97,7 +97,10 @@ end
 function RingMenu.SetActionButtonSlot(button, slot)
     button:SetAttribute("type", "action")
     button:SetAttribute("action", slot)
+    button:SetAttribute("checkselfcast", true)
+    button:SetAttribute("checkfocuscast", true)
     button.action = slot
+    button:SetID(slot)
 
     if ActionButton_UpdateAction then
         pcall(ActionButton_UpdateAction, button, slot)

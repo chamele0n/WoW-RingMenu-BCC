@@ -129,7 +129,7 @@ function RingMenu_UpdateRing(ringID)
     for buttonID = 1, (config.numSlots or 1) do
         if not rf.button[buttonID] then
             rf.button[buttonID] = CreateFrame("CheckButton", "RingMenuRingFrame" .. ringID .. "Button" .. buttonID, rf,
-                "ActionBarButtonTemplate")
+                "SecureActionButtonTemplate, ActionBarButtonTemplate")
             if Masque then
                 local masqueRing = Masque:Group("RingMenu")
                 masqueRing:AddButton(rf.button[buttonID])
@@ -138,11 +138,10 @@ function RingMenu_UpdateRing(ringID)
             button.ringID = ringID
             button.buttonID = buttonID
 
-            rf.toggleButton:WrapScript(button, "OnClick", [[ -- (self, button, down)
-                local rf = self:GetParent()
-                local closeOnClick = rf:GetAttribute("closeOnClick")
+            rf.toggleButton:WrapScript(button, "OnClick", nil, [[ -- (self, button, down)
+                local closeOnClick = self:GetAttribute("closeOnClick")
                 if closeOnClick then
-                    rf:Hide()
+                    self:GetParent():Hide()
                 end
             ]])
         end
@@ -154,6 +153,7 @@ function RingMenu_UpdateRing(ringID)
         button:SetPoint("CENTER", rf, "CENTER", posX, posY)
         local firstSlot = config.firstSlot or 1
         local buttonSlot = firstSlot + buttonID - 1
+        button:SetAttribute("closeOnClick", config.closeOnClick)
         RingMenu.SetActionButtonSlot(button, buttonSlot)
         button:Show()
     end
